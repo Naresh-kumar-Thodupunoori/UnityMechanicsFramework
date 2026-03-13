@@ -294,6 +294,7 @@ All scripts must use the base namespace `GameplayMechanicsUMFOSS` extended with 
 | `GameplayMechanicsUMFOSS.Combat` | Attacks, hitboxes, damage, status effects |
 | `GameplayMechanicsUMFOSS.AI` | Pathfinding, patrol, decision-making systems |
 | `GameplayMechanicsUMFOSS.Utils` | Timers, object pooling, extension methods |
+| `GameplayMechanicsUMFOSS.Samples.Jump` | Sample scripts for the Jump mechanic |
 
 ### 8.2 Usage example
 
