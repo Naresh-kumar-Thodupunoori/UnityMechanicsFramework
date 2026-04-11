@@ -184,9 +184,9 @@ EventBus.Subscribe<PlayerJumpedEvent>(e => audioManager.PlayJumpSound());
 | # | Mechanic | Author | Category | Video |
 |---|---|---|---|---|
 | 1 | [MonoSingleton Generic](#1-monosingleton-generic) | Shubham B | Core | — |
-| 2 | [Generic & Scalable Dialogue System](#2-generic--scalable-dialogue-system) | Mayur | Dialogue | [▶ Watch]
-| 64 | [Utils](#64-Utils) | [Shubham ](https://github.com/vijit101) | Core | [▶ Watch]() |
-(https://github.com/vijit101/UnityMechanicsFramework/tree/main/RuntimeMechanics/Dailogue/2.%20GenericAndScalableDialogueSystem/Assets/Video%20tutorial) |
+| 2 | [Generic & Scalable Dialogue System](#2-generic--scalable-dialogue-system) | Mayur | Dialogue | [▶ Watch](https://github.com/vijit101/UnityMechanicsFramework/tree/main/RuntimeMechanics/Dailogue/2.%20GenericAndScalableDialogueSystem/Assets/Video%20tutorial) |
+| 25 | [Spawner System](#25-spawner-system) | Community | World | [▶ Watch](./Samples~/SpawnerSystem/SpawnerSystemTutorial.mp4.zip) |
+| 4 | [Utils](#4-utils) | [Shubham](https://github.com/vijit101) | Core | — |
 
 *More mechanics are added with every merged PR. [Contribute yours →](#9-how-to-contribute)*
 
@@ -248,7 +248,7 @@ GameManager.Instance.AddScore(10);
 A `ScriptableObject`-based dialogue framework for building flexible, branching conversations in Unity. Scale from a single NPC exchange to a full narrative tree without ever modifying the core system. New dialogue is added as data not code.
 
 **How to use it**
- Note to meintainer : need to fix the part for how to use dialogue system later / for the one using it find the video and watch it  
+ Note to maintainer: need to fix the part for how to use the dialogue system later / for those using it, find the video and watch it  
 ```csharp
 using GameplayMechanicsUMFOSS.Dialogue;
 
@@ -276,47 +276,74 @@ dialogueSystem.StartDialogue(npcDatabase, onComplete: () =>
 
 ---
 
-### 64 . Utils
+### 25. Spawner System
 
 | | |
 |---|---|
-| **Author** | [Shubham](https://github.com/vijit101) |
-| **Namespace** | `GameplayMechanicsUMFOSS.Core` 
-| **Location** | [`RuntimeMechanics/Dialogue/2. GenericAndScalableDialogueSystem/`](https://github.com/vijit101/UnityMechanicsFramework/tree/main/RuntimeMechanics/Dailogue/2.%20GenericAndScalableDialogueSystem) |
-| **Category** | Dialogue / Narrative |
-| **Demo Scene** | `Samples~/DialogueExample/Assets/Scenes/DemoScene.unity` |
-| **Video** | [▶ Watch Tutorial](https://github.com/vijit101/UnityMechanicsFramework/tree/main/Samples~/dailogueSample/Video) |
+| **Author** | [Naresh Kumar Thodupunoori](https://github.com/Naresh-Kumar-Thodupunoori) |
+| **Namespace** | `GameplayMechanicsUMFOSS.World` |
+| **Location** | `Runtime/World/` (`SpawnProfile_UMFOSS`, `SpawnPoint_UMFOSS`, `WaveSpawner_UMFOSS`, `TimedSpawner_UMFOSS`, `ProximitySpawner_UMFOSS`) |
+| **Category** | World / Spawning |
+| **Demo Scene** | `Samples~/SpawnerSystem/Assets/Scenes/DemoScene.unity` |
+| **Video** | [▶ Watch](./Samples~/SpawnerSystem/SpawnerSystemTutorial.mp4.zip) |
 
 **What it does**
 
-A `ScriptableObject`-based dialogue framework for building flexible, branching conversations in Unity. Scale from a single NPC exchange to a full narrative tree without ever modifying the core system. New dialogue is added as data, not code.
+ScriptableObject-driven spawning for three patterns: wave-based rounds, timed interval respawns (with optional refill on defeat), and proximity-triggered bursts using `Physics2D.OverlapCircle` (no trigger collider required on the spawner). All runtime spawning goes through `ObjectPoolManager_UMFOSS`; active counts use `SpawnerTrackedEntity_UMFOSS` and lifecycle events instead of polling for destroyed objects.
 
 **How to use it**
- Note to maintainer: need to fix the part for how to use the dialogue system later / for the one using it find the video and watch it  
+
 ```csharp
-using GameplayMechanicsUMFOSS.Dialogue;
+using GameplayMechanicsUMFOSS.World;
 
-// Step 1: Create DialogueNode ScriptableObjects in the Inspector
-// Step 2: Link them into a DialogueDatabase asset
-// Step 3: Reference the database from your DialogueSystem component
+// 1. Create SpawnProfile_UMFOSS assets (UMFOSS/World/SpawnProfile) with entries, weights, and caps.
+// 2. Place SpawnPoint_UMFOSS objects in the scene.
+// 3. Add WaveSpawner_UMFOSS, TimedSpawner_UMFOSS, or ProximitySpawner_UMFOSS and assign the profile + points.
+// 4. Ensure ObjectPoolManager_UMFOSS exists and pools are warmed for each prefab listed in the profile.
 
-[SerializeField] private DialogueSystem dialogueSystem;
-[SerializeField] private DialogueDatabase npcDatabase;
-
-// Step 4: Start a conversation
-dialogueSystem.StartDialogue(npcDatabase, onComplete: () =>
-{
-    Debug.Log("Conversation finished.");
-});
+// Wave example — start from the Inspector or code:
+GetComponent<WaveSpawner_UMFOSS>().StartWaves();
 ```
 
 **Highlights**
 
-- Fully data-driven — all dialogue lives in ScriptableObject assets, not in code
-- Supports branching and multi-path dialogue trees
-- Clean separation between data (`DialogueDatabase`) and logic (`DialogueSystem`)
-- Add new conversations without touching any existing scripts
-- Scales to large narrative systems without architectural changes
+- Weighted random selection for mixed enemy types (timed/proximity single picks; waves iterate per entry row)
+- Pause-aware via `GamePausedEvent` and `TimerUtility_UMFOSS` for timed spawns
+- `AnimationCurve` count/delay scaling optional — flat curves at 1 preserve default behaviour
+- EventBus events: `OnWaveStartedEvent`, `OnWaveClearedEvent`, `OnTimedSpawnTriggeredEvent`, `OnProximitySpawnTriggeredEvent`, and shared `OnSpawnCountChangedEvent`
+
+---
+
+### 4. Utils
+
+| | |
+|---|---|
+| **Author** | [Shubham](https://github.com/vijit101) |
+| **Namespace** | `GameplayMechanicsUMFOSS.Utils`, `GameplayMechanicsUMFOSS.Core` |
+| **Location** | `Runtime/Utils/` (`TimerUtility_UMFOSS`, `ObjectPoolManager_UMFOSS`, …), `Runtime/Utils/Utils.cs` |
+| **Category** | Core / Helpers |
+| **Demo Scene** | — |
+| **Video** | — |
+
+**What it does**
+
+Shared helpers used across mechanics: pause-aware timers (`TimerUtility_UMFOSS`), object pooling (`ObjectPoolManager_UMFOSS`), and small static utilities such as scene reload helpers (`Utils`).
+
+**How to use it**
+
+```csharp
+// Example: schedule a one-shot callback
+TimerUtility_UMFOSS.Instance.ScheduleOnce(2f, () => Debug.Log("Fired"));
+
+// Example: reload active scene
+GameplayMechanicsUMFOSS.Core.Utils.ReloadLvl();
+```
+
+**Highlights**
+
+- Centralized timers that respect `GamePausedEvent`
+- Pooling integration for spawn-heavy mechanics
+- Lightweight static helpers for common scene flow
 
 ---
 
@@ -377,6 +404,7 @@ All scripts use `GameplayMechanicsUMFOSS` as the base namespace, extended by fea
 | `GameplayMechanicsUMFOSS.Dialogue` | DialogueSystem, nodes, database | ✅ Active |
 | `GameplayMechanicsUMFOSS.Input` | InputAdapter | ✅ Active |
 | `GameplayMechanicsUMFOSS.Utils` | TimerUtility, helpers | ✅ Active |
+| `GameplayMechanicsUMFOSS.World` | Spawner system, spawn points, world tools | ✅ Active |
 | `GameplayMechanicsUMFOSS.Inventory` | Item systems, loot, equipment | 🔓 Open for contribution |
 | `GameplayMechanicsUMFOSS.Combat` | Hitboxes, damage, status effects | 🔓 Open for contribution |
 | `GameplayMechanicsUMFOSS.UI` | HUD, menus, tooltips | 🔓 Open for contribution |
@@ -395,7 +423,7 @@ All scripts use `GameplayMechanicsUMFOSS` as the base namespace, extended by fea
 | Unity 6 | ✅ Supported |
 
 **Additional notes:**
-- All mechanics target **2D games** by default. But some Issues and PR's  are beyond 2d or 3d that can be used by all. The `IPhysicsAdapter` layer makes extending to 3D straightforward without modifying mechanic code
+- All mechanics target **2D games** by default. But some Issues and PR's  are beyond 2d or 3d that can be used by all. The `IPhysicsAdapter` layer makes extending to 3D straightforward without modifying the mechanics code
 - Compatible with both **Built-In Render Pipeline** and **URP**
 - Compatible with both **Legacy Input** and the **new Unity Input System** via `InputAdapter`
 - If your mechanic requires additional packages (Cinemachine, TextMeshPro, etc.), declare them in your PR and in your `ScriptExplainer.txt` header
