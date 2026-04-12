@@ -185,6 +185,7 @@ EventBus.Subscribe<PlayerJumpedEvent>(e => audioManager.PlayJumpSound());
 |---|---|---|---|---|
 | 1 | [MonoSingleton Generic](#1-monosingleton-generic) | Shubham B | Core | — |
 | 2 | [Generic & Scalable Dialogue System](#2-generic--scalable-dialogue-system) | Mayur | Dialogue | [▶ Watch]
+| 24 | [Pause System](#24-pause-system) | [Souvik Kumar](https://github.com/Souvik-Cyclic) | Systems | [▶ Watch](Samples~/PauseSystemSample/PauseSystemVideo.zip) |
 | 64 | [Utils](#64-Utils) | [Shubham ](https://github.com/vijit101) | Core | [▶ Watch]() |
 (https://github.com/vijit101/UnityMechanicsFramework/tree/main/RuntimeMechanics/Dailogue/2.%20GenericAndScalableDialogueSystem/Assets/Video%20tutorial) |
 
@@ -317,6 +318,48 @@ dialogueSystem.StartDialogue(npcDatabase, onComplete: () =>
 - Clean separation between data (`DialogueDatabase`) and logic (`DialogueSystem`)
 - Add new conversations without touching any existing scripts
 - Scales to large narrative systems without architectural changes
+
+---
+
+### 24. Pause System
+
+| | |
+|---|---|
+| **Author** | [Souvik Kumar](https://github.com/Souvik-Cyclic) |
+| **Namespace** | `GameplayMechanicsUMFOSS.Systems` |
+| **Location** | `Runtime/Systems/PauseSystem/PauseSystem_UMFOSS.cs` |
+| **Category** | Systems |
+| **Demo Scene** | `Samples~/PauseSystemSample/Assets/Scenes/DemoScene.unity` |
+| **Video** | [▶ Watch Walkthrough](Samples~/PauseSystemSample/PauseSystemVideo.zip) |
+
+**What it does**
+
+A centralised singleton pause system that freezes gameplay by setting `Time.timeScale` to 0, pauses all audio globally via `AudioListener.pause`, and broadcasts events so every other system can react without coupling to this one. Preserves bullet time and slow motion through a store-and-restore `timeScale` pattern, and optionally auto-pauses when the application loses OS focus.
+
+**How to use it**
+
+```csharp
+using GameplayMechanicsUMFOSS.Systems;
+using GameplayMechanicsUMFOSS.Core;
+
+// Step 1: Add PauseSystem_UMFOSS to a persistent GameObject in your scene
+
+// Step 2: Toggle pause from input or UI
+PauseSystem_UMFOSS.Instance.TogglePause();
+
+// Step 3: Call Pause() / Resume() directly from UI buttons
+pauseButton.onClick.AddListener(() => PauseSystem_UMFOSS.Instance.Pause());
+resumeButton.onClick.AddListener(() => PauseSystem_UMFOSS.Instance.Resume());
+
+// Step 4: React to pause/resume events from any other system — no direct reference needed
+EventBus.Subscribe<GamePausedEvent>(e => aiController.SetInputEnabled(false));
+EventBus.Subscribe<GameResumedEvent>(e => aiController.SetInputEnabled(true));
+```
+
+**Highlights**
+- Store-and-restore `timeScale` pattern — bullet time and slow motion survive pause/resume with zero extra code
+- Configurable pause key, optional focus-loss auto-pause, and per-project audio toggle via Inspector
+- Demonstrates the Singleton and EventBus patterns — pause state is globally accessible and fully decoupled from every system that reacts to it
 
 ---
 
