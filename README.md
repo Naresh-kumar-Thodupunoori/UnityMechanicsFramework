@@ -184,7 +184,9 @@ EventBus.Subscribe<PlayerJumpedEvent>(e => audioManager.PlayJumpSound());
 | # | Mechanic | Author | Category | Video |
 |---|---|---|---|---|
 | 1 | [MonoSingleton Generic](#1-monosingleton-generic) | Shubham B | Core | — |
-| 2 | [Generic & Scalable Dialogue System](#2-generic--scalable-dialogue-system) | Mayur | Dialogue | [▶ Watch](https://github.com/vijit101/UnityMechanicsFramework/tree/main/RuntimeMechanics/Dailogue/2.%20GenericAndScalableDialogueSystem/Assets/Video%20tutorial) |
+| 2 | [Generic & Scalable Dialogue System](#2-generic--scalable-dialogue-system) | Mayur | Dialogue | [▶ Watch]
+| 64 | [Utils](#64-Utils) | [Shubham ](https://github.com/vijit101) | Core | [▶ Watch]() |
+(https://github.com/vijit101/UnityMechanicsFramework/tree/main/RuntimeMechanics/Dailogue/2.%20GenericAndScalableDialogueSystem/Assets/Video%20tutorial) |
 | 6 | [Screen Shake System](#3-screen-shake-system) | [Paramjeet Kaur](https://github.com/kauxp/) | Systems | [▶ Watch](Samples~/ScreenShakeExample/Video/ScreenShakeSystemTutorial.mp4) |
 
 *More mechanics are added with every merged PR. [Contribute yours →](#9-how-to-contribute)*
@@ -275,57 +277,49 @@ dialogueSystem.StartDialogue(npcDatabase, onComplete: () =>
 
 ---
 
-### 6. Screen Shake System
+### 64 . Utils
 
 | | |
 |---|---|
-| **Author** | [Paramjeet Kaur](https://github.com/kauxp) |
-| **Namespace** | `GameplayMechanicsUMFOSS.Systems` |
-| **Location** | `Runtime/Systems/ScreenShakeSystem_UMFOSS.cs` |
-| **Category** | Systems |
-| **Demo Scene** | `Samples~/ScreenShakeSystem/Assets/Scenes/DemoScene.unity` |
-| **Video** | [▶ Watch Walkthrough](Samples~/ScreenShakeExample/Video/ScreenShakeSystemTutorial.mp4) |
+| **Author** | [Shubham](https://github.com/vijit101) |
+| **Namespace** | `GameplayMechanicsUMFOSS.Core` 
+| **Location** | [`RuntimeMechanics/Dialogue/2. GenericAndScalableDialogueSystem/`](https://github.com/vijit101/UnityMechanicsFramework/tree/main/RuntimeMechanics/Dailogue/2.%20GenericAndScalableDialogueSystem) |
+| **Category** | Dialogue / Narrative |
+| **Demo Scene** | `Samples~/DialogueExample/Assets/Scenes/DemoScene.unity` |
+| **Video** | [▶ Watch Tutorial](https://github.com/vijit101/UnityMechanicsFramework/tree/main/Samples~/dailogueSample/Video) |
 
 **What it does**
 
-A trauma-based camera shake system for Unity. Adds smooth positional and rotational shake for impacts, explosions, or heavy actions. Can be triggered via buttons or programmatically. Works in both 2D and 3D games. Handles multiple triggers, ensures smooth decay, and returns the camera to its original position with zero drift.
+A `ScriptableObject`-based dialogue framework for building flexible, branching conversations in Unity. Scale from a single NPC exchange to a full narrative tree without ever modifying the core system. New dialogue is added as data, not code.
 
 **How to use it**
-
-1. Attach `ScreenShakeSystem_UMFOSS` to any GameObject (e.g., a background object).  
-2. Set shake parameters in the Inspector:  
-   - **ShakeDecay** — how fast shake fades  
-   - **TraumaMultiplier** — intensity scaling  
-   - **PositionMagnitude** — positional shake strength  
-   - **RotationMagnitude** — rotational shake strength  
-3. Add `ShakeDemoButton` script to a Canvas UI Button and set `magnitude` and `duration`.  
-
+ Note to maintainer: need to fix the part for how to use the dialogue system later / for the one using it find the video and watch it  
 ```csharp
-using UnityEngine;
-using GameplayMechanicsUMFOSS.Systems;
+using GameplayMechanicsUMFOSS.Dialogue;
 
-public class ShakeButton : MonoBehaviour
+// Step 1: Create DialogueNode ScriptableObjects in the Inspector
+// Step 2: Link them into a DialogueDatabase asset
+// Step 3: Reference the database from your DialogueSystem component
+
+[SerializeField] private DialogueSystem dialogueSystem;
+[SerializeField] private DialogueDatabase npcDatabase;
+
+// Step 4: Start a conversation
+dialogueSystem.StartDialogue(npcDatabase, onComplete: () =>
 {
-    [SerializeField] public float magnitude ;
-    [SerializeField] public float duration ;
-
-    public void Trigger()
-    {
-        ScreenShakeSystem_UMFOSS.Instance.TriggerShake(magnitude, duration);
-    }
-}
+    Debug.Log("Conversation finished.");
+});
 ```
 
-4. In the Button’s `OnClick()`, assign the `Trigger()` method of `ShakeButton`.  
+**Highlights**
 
+- Fully data-driven — all dialogue lives in ScriptableObject assets, not in code
+- Supports branching and multi-path dialogue trees
+- Clean separation between data (`DialogueDatabase`) and logic (`DialogueSystem`)
+- Add new conversations without touching any existing scripts
+- Scales to large narrative systems without architectural changes
 
-
-#### Highlights
-
-- Trauma-based design — smooth shake intensity that decays naturally; multiple hits stack
-- Uses Perlin noise instead of random to generate smooth, jitter-free camera motion
-- Singleton architecture — any script can trigger shake in one line (Instance.TriggerShake)
-
+---
 
 <!--
 ================================================================
