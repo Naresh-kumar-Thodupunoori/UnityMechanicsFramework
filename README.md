@@ -185,7 +185,7 @@ EventBus.Subscribe<PlayerJumpedEvent>(e => audioManager.PlayJumpSound());
 |---|---|---|---|---|
 | 1 | [MonoSingleton Generic](#1-monosingleton-generic) | Shubham B | Core | — |
 | 2 | [Generic & Scalable Dialogue System](#2-generic--scalable-dialogue-system) | Mayur | Dialogue | [▶ Watch](https://github.com/vijit101/UnityMechanicsFramework/tree/main/RuntimeMechanics/Dailogue/2.%20GenericAndScalableDialogueSystem/Assets/Video%20tutorial) |
-| 25 | [Spawner System](#25-spawner-system) | Community | World | [▶ Watch](./Samples~/SpawnerSystem/SpawnerSystemTutorial.mp4.zip) |
+| 25 | [Spawner System](#25-spawner-system) | [Naresh Kumar Thodupunoori](https://github.com/Naresh-Kumar-Thodupunoori) | World | [▶ Video (zip)](./Sample/SpawnerSystem/SpawnerSystemTutorial.mp4.zip) |
 | 4 | [Utils](#4-utils) | [Shubham](https://github.com/vijit101) | Core | — |
 
 *More mechanics are added with every merged PR. [Contribute yours →](#9-how-to-contribute)*
@@ -282,10 +282,10 @@ dialogueSystem.StartDialogue(npcDatabase, onComplete: () =>
 |---|---|
 | **Author** | [Naresh Kumar Thodupunoori](https://github.com/Naresh-Kumar-Thodupunoori) |
 | **Namespace** | `GameplayMechanicsUMFOSS.World` |
-| **Location** | `Runtime/World/` (`SpawnProfile_UMFOSS`, `SpawnPoint_UMFOSS`, `WaveSpawner_UMFOSS`, `TimedSpawner_UMFOSS`, `ProximitySpawner_UMFOSS`) |
+| **Location** | `Runtime/Mechanic/SpawnerSystem/Scripts/` — spawner scripts plus `SpawnerSpawnExecution`, `SpawnerTrackedEntity_UMFOSS`, `SpawnerEvents`, `SpawnerEnums`; explainers in `Runtime/Mechanic/SpawnerSystem/Script_Explainers/` |
 | **Category** | World / Spawning |
-| **Demo Scene** | `Samples~/SpawnerSystem/Assets/Scenes/DemoScene.unity` |
-| **Video** | [▶ Watch](./Samples~/SpawnerSystem/SpawnerSystemTutorial.mp4.zip) |
+| **Demo project** | Unzip [Spwaner_System.zip](./Sample/SpawnerSystem/Spwaner_System.zip) (contains the demo `Assets`, `ProjectSettings`, and `Packages`) and open it in Unity; the scene path inside that project is `Assets/Scenes/DemoScene.unity`. |
+| **Video** | [▶ Watch](./Sample/SpawnerSystem/SpawnerSystemTutorial.mp4.zip) |
 
 **What it does**
 

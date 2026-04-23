@@ -13,8 +13,8 @@
   "samples": [
     {
       "displayName": "Spawner System",
-      "description": "Demo scene for wave, timed, and proximity spawners (Issue #25).",
-      "path": "Samples~/SpawnerSystem"
+      "description": "Zipped Unity demo project (Spwaner_System.zip) and tutorial video (SpawnerSystemTutorial.mp4.zip) for Issue #25 — import via Package Manager → Samples.",
+      "path": "Sample/SpawnerSystem"
     }
   ]
 }
