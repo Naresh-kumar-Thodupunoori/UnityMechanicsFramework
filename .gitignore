@@ -72,7 +72,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 # Additional junk files
-*.ini
-
-# macOS Finder
 .DS_Store
+*.ini
