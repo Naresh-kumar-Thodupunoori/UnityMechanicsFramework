@@ -186,7 +186,7 @@ EventBus.Subscribe<PlayerJumpedEvent>(e => audioManager.PlayJumpSound());
 | 1 | [MonoSingleton Generic](#1-monosingleton-generic) | Shubham B | Core | (https://github.com/vijit101/UnityMechanicsFramework/tree/main/RuntimeMechanics/Dailogue/2.%20GenericAndScalableDialogueSystem/Assets/Video%20tutorial) |
 | 2 | [Generic & Scalable Dialogue System](#2-generic--scalable-dialogue-system) | Mayur | Dialogue | [▶ Watch]
 | 3 | [Modular Jump System](#3-modular-jump-system) | [Ankur Kalita](https://github.com/ankur-kalita) | Movement | [▶ Watch](./Samples~/JumpSystemSample/Video/ModularJumpImpl.mp4.zip) |
-| 24 | [Pause System](#24-pause-system) | [Souvik Kumar](https://github.com/Souvik-Cyclic) | Systems | [▶ Watch](Samples~/PauseSystemSample/PauseSystemVideo.zip) |
+| 24 | [Pause System](#24-pause-system) | [Souvik Kumar](https://github.com/Souvik-Cyclic) | Systems | [▶ Watch](Samples~/PauseSystemSample/Video/PauseSystemVideo.zip) |
 | 64 | [Utils](#64-Utils) | [Shubham ](https://github.com/vijit101) | Core | [▶ Watch]() |
 |
 
@@ -376,10 +376,11 @@ jumpSystem.OnJumpEnd += () => Debug.Log("Landed!");
 |---|---|
 | **Author** | [Souvik Kumar](https://github.com/Souvik-Cyclic) |
 | **Namespace** | `GameplayMechanicsUMFOSS.Systems` |
-| **Location** | `Runtime/Systems/PauseSystem/PauseSystem_UMFOSS.cs` |
+| **Location** | `Runtime/Mechanic/PauseSystem/Scripts/PauseSystem_UMFOSS.cs` |
+| **Script Explainers** | `Runtime/Mechanic/PauseSystem/Script_Explainers/` |
 | **Category** | Systems |
 | **Demo Scene** | `Samples~/PauseSystemSample/Assets/Scenes/DemoScene.unity` |
-| **Video** | [▶ Watch Walkthrough](Samples~/PauseSystemSample/PauseSystemVideo.zip) |
+| **Video** | [▶ Watch Walkthrough](Samples~/PauseSystemSample/Video/PauseSystemVideo.zip) |
 
 **What it does**
 
