@@ -183,11 +183,12 @@ EventBus.Subscribe<PlayerJumpedEvent>(e => audioManager.PlayJumpSound());
 
 | # | Mechanic | Author | Category | Video |
 |---|---|---|---|---|
-| 1 | [MonoSingleton Generic](#1-monosingleton-generic) | Shubham B | Core | — |
+| 1 | [MonoSingleton Generic](#1-monosingleton-generic) | Shubham B | Core | (https://github.com/vijit101/UnityMechanicsFramework/tree/main/RuntimeMechanics/Dailogue/2.%20GenericAndScalableDialogueSystem/Assets/Video%20tutorial) |
 | 2 | [Generic & Scalable Dialogue System](#2-generic--scalable-dialogue-system) | Mayur | Dialogue | [▶ Watch]
+| 3 | [Modular Jump System](#3-modular-jump-system) | [Ankur Kalita](https://github.com/ankur-kalita) | Movement | [▶ Watch](./Samples~/JumpSystemSample/Video/ModularJumpImpl.mp4.zip) |
 | 64 | [Utils](#64-Utils) | [Shubham ](https://github.com/vijit101) | Core | [▶ Watch]() |
-(https://github.com/vijit101/UnityMechanicsFramework/tree/main/RuntimeMechanics/Dailogue/2.%20GenericAndScalableDialogueSystem/Assets/Video%20tutorial) |
-| 6 | [Screen Shake System](#6-screen-shake-system) | [Paramjeet Kaur](https://github.com/kauxp/) | Systems | [▶ Watch](Samples~/ScreenShakeExample/Video/ScreenShakeTutorial.mp4) |
+
+| 6 | [Screen Shake System](#6-screen-shake-system) | [Paramjeet Kaur](https://github.com/kauxp) | Systems | [▶ Watch](Samples~/ScreenShakeExample/Video/ScreenShakeTutorial.mp4) |
 
 *More mechanics are added with every merged PR. [Contribute yours →](#9-how-to-contribute)*
 
@@ -374,6 +375,54 @@ dialogueSystem.StartDialogue(npcDatabase, onComplete: () =>
 - Clean separation between data (`DialogueDatabase`) and logic (`DialogueSystem`)
 - Add new conversations without touching any existing scripts
 - Scales to large narrative systems without architectural changes
+
+---
+
+### 3. Modular Jump System
+
+| | |
+|---|---|
+| **Author** | [Ankur Kalita](https://github.com/ankur-kalita) |
+| **Namespace** | `GameplayMechanicsUMFOSS.Movement` / `GameplayMechanicsUMFOSS.Physics` |
+| **Location** | `Runtime/Mechanic/ModularJumpSystem/Scripts/` |
+| **Script Explainers** | `Runtime/Mechanic/ModularJumpSystem/Script_Explainers/` |
+| **Category** | Movement |
+| **Demo Scene** | Included in `Samples~/JumpSystemSample/JumpSystemProjectZip.zip` |
+| **Video** | [▶ Watch Walkthrough](./Samples~/JumpSystemSample/Video/ModularJumpImpl.mp4.zip) |
+
+**What it does**
+
+A fully modular, configurable jump system supporting both 2D and 3D physics via the adapter pattern. Drop it onto any GameObject, pick a dimension mode, and get multi-jump, coyote time, jump buffering, variable jump height, and tunable gravity — all from the Inspector.
+
+**How to use it**
+
+```csharp
+using GameplayMechanicsUMFOSS.Movement;
+
+// Step 1: Add ModularJumpSystem_UMFOSS component to your player
+// Step 2: Select DimensionMode (Mode2D or Mode3D) in Inspector
+// Step 3: Assign a Jump InputActionReference, or call methods directly:
+
+ModularJumpSystem_UMFOSS jumpSystem = GetComponent<ModularJumpSystem_UMFOSS>();
+
+// Manual input (when not using InputActionReference)
+jumpSystem.OnJumpPressed();
+jumpSystem.OnJumpReleased();
+
+// Read state for other systems
+bool grounded = jumpSystem.IsGrounded;
+float airControl = jumpSystem.AirControlMultiplier;
+
+// Listen to events
+jumpSystem.OnJumpStart += () => Debug.Log("Jumped!");
+jumpSystem.OnJumpEnd += () => Debug.Log("Landed!");
+```
+
+**Highlights**
+
+- **Adapter pattern** — `IPhysicsAdapter` with `Physics2DAdapter` and `Physics3DAdapter`. Zero duplicated logic between 2D and 3D modes.
+- **Platformer-ready** — coyote time, jump buffering, variable jump height, N-jumps, gravity multipliers, and terminal velocity — all configurable from the Inspector
+- **Demonstrates the Strategy pattern** — swappable physics backends via interface abstraction, teaching clean dependency inversion in Unity
 
 ---
 
