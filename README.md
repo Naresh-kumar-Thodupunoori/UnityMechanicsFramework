@@ -188,6 +188,7 @@ EventBus.Subscribe<PlayerJumpedEvent>(e => audioManager.PlayJumpSound());
 | 3 | [Spawner System](#3-spawner-system) | [Satish Rathod](https://github.com/satish-rathod) | World / Spawning | [▶ Watch](Samples~/SpawnerSystemSample/Video/SpawnerSystemTutorial.mp4) |
 | 4 | [Scene Manager System](#4-scene-manager-system) | [Nymish](https://github.com/nymishkash) | Systems | [▶ Watch](Samples~/SceneManagerSample/SceneManagerVideos.zip) |
 | 5 | [Modular Jump System](#5-modular-jump-system) | [Ankur Kalita](https://github.com/ankur-kalita) | Movement | [▶ Watch](./Samples~/JumpSystemSample/Video/ModularJumpImpl.mp4.zip) |
+| 6 | [Screen Shake System](#6-screen-shake-system) | [Paramjeet Kaur](https://github.com/kauxp) | Systems | [▶ Watch](Samples~/ScreenShakeExample/Video/ScreenShakeTutorial.mp4) |
 | 64 | [Utils](#64-Utils) | [Shubham ](https://github.com/vijit101) | Core | [▶ Watch]() |
 
 *More mechanics are added with every merged PR. [Contribute yours →](#9-how-to-contribute)*
@@ -277,6 +278,62 @@ dialogueSystem.StartDialogue(npcDatabase, onComplete: () =>
 - Scales to large narrative systems without architectural changes
 
 ---
+
+---
+
+### 6. Screen Shake System
+
+| | |
+|---|---|
+| **Author** | [Paramjeet Kaur](https://github.com/kauxp) |
+| **Namespace** | `GameplayMechanicsUMFOSS.Systems` |
+| **Location** | `Runtime/Systems/ScreenShake/ScreenShakeSystem_UMFOSS.cs` |
+| **Category** | Systems |
+| **Demo Scene** | `Samples~/ScreenShakeExample/Assets/Scenes/DemoScene.unity` |
+| **Video** | [▶ Watch Walkthrough](Samples~/ScreenShakeExample/Video/ScreenShakeTutorial.mp4) |
+
+**What it does**
+
+A trauma-based camera shake system for Unity. Adds smooth positional and rotational shake for impacts, explosions, or heavy actions. Can be triggered via buttons or programmatically. Works in both 2D and 3D games. Handles multiple triggers, ensures smooth decay, and returns the camera to its original position with zero drift.
+
+**How to use it**
+
+1. Attach `ScreenShakeSystem_UMFOSS` to any GameObject (e.g., a background object).  
+2. Set shake parameters in the Inspector:  
+   - **ShakeDecay** — how fast shake fades  
+   - **TraumaMultiplier** — intensity scaling  
+   - **PositionMagnitude** — positional shake strength  
+   - **RotationMagnitude** — rotational shake strength  
+3. Add `ShakeDemoButtons` script to a Canvas UI Button and set `magnitude` and `duration`.  
+
+```csharp
+using UnityEngine;
+using GameplayMechanicsUMFOSS.Systems;
+
+namespace GameplayMechanicsUMFOSS.Samples.ScreenShake
+{
+    public class ShakeDemoButtons : MonoBehaviour
+    {
+        [SerializeField] public float magnitude;
+        [SerializeField] public float duration;
+
+        public void Trigger()
+        {
+            ScreenShakeSystem_UMFOSS.Instance.TriggerShake(magnitude, duration);
+        }
+    }
+}
+```
+
+4. In the Button’s `OnClick()`, assign the `Trigger()` method of `ShakeDemoButtons`.  
+
+
+
+#### Highlights
+
+- Trauma-based design — smooth shake intensity that decays naturally; multiple hits stack
+- Uses Perlin noise instead of random to generate smooth, jitter-free camera motion
+- Singleton architecture — any script can trigger shake in one line (Instance.TriggerShake)
 
 ### 64 . Utils
 
