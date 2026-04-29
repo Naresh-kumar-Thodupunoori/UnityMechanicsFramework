@@ -185,7 +185,7 @@ EventBus.Subscribe<PlayerJumpedEvent>(e => audioManager.PlayJumpSound());
 |---|---|---|---|---|
 | 1 | [MonoSingleton Generic](#1-monosingleton-generic) | Shubham B | Core | — |
 | 2 | [Generic & Scalable Dialogue System](#2-generic--scalable-dialogue-system) | Mayur | Dialogue | [▶ Watch](https://github.com/vijit101/UnityMechanicsFramework/tree/main/RuntimeMechanics/Dailogue/2.%20GenericAndScalableDialogueSystem/Assets/Video%20tutorial) |
-| 3 | [Spawner System](#3-spawner-system) | [Satish Rathod](https://github.com/satish-rathod) | World / Spawning | [▶ Watch](Samples~/SpawnerSystemSample/Video/SpawnerSystemTutorial.mp4) |
+| 3 | [Spawner System](#3-spawner-system) | [Satish Rathod](https://github.com/satish-rathod) | World / Spawning | [▶ Watch](Sample/SpawnerSystem/SpawnerSystemVideos.zip) |
 | 4 | [Scene Manager System](#4-scene-manager-system) | [Nymish](https://github.com/nymishkash) | Systems | [▶ Watch](Samples~/SceneManagerSample/SceneManagerVideos.zip) |
 | 5 | [Modular Jump System](#5-modular-jump-system) | [Ankur Kalita](https://github.com/ankur-kalita) | Movement | [▶ Watch](./Samples~/JumpSystemSample/Video/ModularJumpImpl.mp4.zip) |
 | 6 | [Screen Shake System](#6-screen-shake-system) | [Paramjeet Kaur](https://github.com/kauxp) | Systems | [▶ Watch](Samples~/ScreenShakeExample/Video/ScreenShakeTutorial.mp4) |
@@ -385,11 +385,11 @@ dialogueSystem.StartDialogue(npcDatabase, onComplete: () =>
 |---|---|
 | **Author** | [Satish Rathod](https://github.com/satish-rathod) |
 | **Namespace** | `GameplayMechanicsUMFOSS.World` |
-| **Location** | [`Runtime/World/`](Runtime/World/) |
-| **Script Explainers** | `Runtime/World/*_scriptExplainer.txt` (one per script) |
+| **Location** | [`Runtime/Mechanic/SpawnerSystem/Scripts/`](Runtime/Mechanic/SpawnerSystem/Scripts/) |
+| **Script Explainers** | [`Runtime/Mechanic/SpawnerSystem/Script_Explainers/`](Runtime/Mechanic/SpawnerSystem/Script_Explainers/) (one per script) |
 | **Category** | World / Spawning |
-| **Demo Scene** | `Samples~/SpawnerSystemSample/Assets/Scenes/DemoScene.unity` |
-| **Video** | [▶ Watch Walkthrough](Samples~/SpawnerSystemSample/Video/SpawnerSystemTutorial.mp4) |
+| **Sample Project** | [`Sample/SpawnerSystem/SpawnerSystem.zip`](Sample/SpawnerSystem/SpawnerSystem.zip) (extract & open in Unity) |
+| **Videos** | [`Sample/SpawnerSystem/SpawnerSystemVideos.zip`](Sample/SpawnerSystem/SpawnerSystemVideos.zip) (Demo + Detailed walkthrough) |
 
 **What it does**
 

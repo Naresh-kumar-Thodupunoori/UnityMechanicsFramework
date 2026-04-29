@@ -75,6 +75,6 @@ crashlytics-build.properties
 .DS_Store
 *.ini
 
-# Video stitching workspace (raw takes + concat list are local-only)
-Samples~/SpawnerSystemSample/Video/raw-takes/
-Samples~/SpawnerSystemSample/Video/concat-list.txt
+# Video stitching workspace (raw takes are local-only, never committed)
+**/raw-takes/
+**/concat-list.txt
