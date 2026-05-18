@@ -1,41 +1,42 @@
 using System;
 using System.Collections.Generic;
 
-namespace GameplayMechanicsUMFOSS.Core
+/// <summary>
+/// Decoupled event communication system. Mechanics publish events without
+/// knowing who listens. Subscribers react without knowing who publishes.
+/// </summary>
+public static class EventBus
 {
-    /// <summary>
-    /// Lightweight publish/subscribe hub for struct-based events.
-    /// </summary>
-    public static class EventBus
+    private static readonly Dictionary<Type, List<Delegate>> subscribers = new();
+
+    public static void Subscribe<T>(Action<T> handler)
     {
-        static readonly Dictionary<Type, Delegate> Subscribers = new Dictionary<Type, Delegate>();
+        var type = typeof(T);
+        if (!subscribers.ContainsKey(type))
+            subscribers[type] = new List<Delegate>();
+        subscribers[type].Add(handler);
+    }
 
-        public static void Subscribe<T>(Action<T> handler) where T : struct
-        {
-            if (handler == null) return;
-            var key = typeof(T);
-            if (Subscribers.TryGetValue(key, out var existing))
-                Subscribers[key] = Delegate.Combine(existing, handler);
-            else
-                Subscribers[key] = handler;
-        }
+    public static void Unsubscribe<T>(Action<T> handler)
+    {
+        var type = typeof(T);
+        if (subscribers.ContainsKey(type))
+            subscribers[type].Remove(handler);
+    }
 
-        public static void Unsubscribe<T>(Action<T> handler) where T : struct
+    public static void Publish<T>(T eventData)
+    {
+        var type = typeof(T);
+        if (!subscribers.ContainsKey(type)) return;
+        for (int i = subscribers[type].Count - 1; i >= 0; i--)
         {
-            if (handler == null) return;
-            var key = typeof(T);
-            if (!Subscribers.TryGetValue(key, out var existing)) return;
-            var result = Delegate.Remove(existing, handler);
-            if (result == null)
-                Subscribers.Remove(key);
-            else
-                Subscribers[key] = result;
+            if (subscribers[type][i] is Action<T> action)
+                action.Invoke(eventData);
         }
+    }
 
-        public static void Publish<T>(T evt) where T : struct
-        {
-            if (!Subscribers.TryGetValue(typeof(T), out var del)) return;
-            ((Action<T>)del)?.Invoke(evt);
-        }
+    public static void Clear()
+    {
+        subscribers.Clear();
     }
 }
