@@ -174,8 +174,11 @@ EventBus.Subscribe<PlayerJumpedEvent>(e => audioManager.PlayJumpSound());
 > Every entry is contributed by a community member. Each one includes:
 > the author's name and profile, a video walkthrough, a link to the mechanic, usage instructions, and highlights.
 >
-> **Contributors:** when your PR is merged, add your entry here following the format below.  
-> See [CONTRIBUTING.md → Section 14](./CONTRIBUTING.md#14-updating-the-mechanics-library-in-readme) for the exact format required.
+> **Contributors — before you open a PR:**
+> 1. Add a row to the **Quick Navigation** table below (use your GitHub **issue number** as `#`, e.g. Issue **#25** → `#25-spawner-system`).
+> 2. Add a full **`### N. Your Mechanic Name`** section using the template at the bottom of this section.
+> 3. See [CONTRIBUTING.md → Section 14](./CONTRIBUTING.md#14-updating-the-mechanics-library-in-readme) for the exact format, video rules, and PR checklist.
+>
 
 ---
 
@@ -185,13 +188,13 @@ EventBus.Subscribe<PlayerJumpedEvent>(e => audioManager.PlayJumpSound());
 |---|---|---|---|---|
 | 1 | [MonoSingleton Generic](#1-monosingleton-generic) | Shubham B | Core | — |
 | 2 | [Generic & Scalable Dialogue System](#2-generic--scalable-dialogue-system) | Mayur | Dialogue | [▶ Watch](https://github.com/vijit101/UnityMechanicsFramework/tree/main/RuntimeMechanics/Dailogue/2.%20GenericAndScalableDialogueSystem/Assets/Video%20tutorial) |
-| 25 | [Spawner System](#25-spawner-system) | [Naresh Kumar Thodupunoori](https://github.com/Naresh-Kumar-Thodupunoori) | World | [▶ Video (zip)](./Sample/SpawnerSystem/SpawnerSystemTutorial.mp4.zip) |
 | 3 | [Scene Manager System](#3-scene-manager-system) | [Nymish](https://github.com/nymishkash) | Systems | [▶ Watch](Samples~/SceneManagerSample/SceneManagerVideos.zip) |
 | 5 | [Modular Jump System](#5-modular-jump-system) | [Ankur Kalita](https://github.com/ankur-kalita) | Movement | [▶ Watch](./Samples~/JumpSystemSample/Video/ModularJumpImpl.mp4.zip) |
 | 6 | [Screen Shake System](#6-screen-shake-system) | [Paramjeet Kaur](https://github.com/kauxp) | Systems | [▶ Watch](Samples~/ScreenShakeExample/Video/ScreenShakeTutorial.mp4) |
 | 24 | [Pause System](#24-pause-system) | [Souvik Kumar](https://github.com/Souvik-Cyclic) | Systems | [▶ Watch](Samples~/PauseSystemSample/Video/PauseSystemVideo.zip) |
+| 25 | [Spawner System](#25-spawner-system) | [Naresh Kumar Thodupunoori](https://github.com/Naresh-Kumar-Thodupunoori) | World / Spawning | [▶ Watch](./Sample/SpawnerSystem/SpawnerSystemTutorial.mp4.zip) |
 | 27 | [Boomerang Weapon](#27-boomerang-weapon-system) | [Shrinibas Mahanta](https://github.com/2k4sm), [Shreyas Garg](https://github.com/shreyas-garg), [Sudharsan](https://github.com/Bug-Finderr) | Combat | [▶ Watch](https://github.com/vijit101/UnityMechanicsFramework/tree/main/Samples~/BoomerangWeapon/BoomerangWeaponDemoVideo.zip) |
-| 64 | [Utils](#64-utils) | [Shubham](https://github.com/vijit101) | Core | — |
+| 64 | [Utils](#4-utils) | [Shubham](https://github.com/vijit101) | Core | — |
 
 
 *More mechanics are added with every merged PR. [Contribute yours →](#9-how-to-contribute)*
@@ -382,37 +385,48 @@ namespace GameplayMechanicsUMFOSS.Samples.ScreenShake
 
 | | |
 |---|---|
+| **Issue** | [#25 — Spawner System](https://github.com/vijit101/UnityMechanicsFramework/issues/25) |
 | **Author** | [Naresh Kumar Thodupunoori](https://github.com/Naresh-Kumar-Thodupunoori) |
 | **Namespace** | `GameplayMechanicsUMFOSS.World` |
-| **Location** | `Runtime/Mechanic/SpawnerSystem/Scripts/` — spawner scripts plus `SpawnerSpawnExecution`, `SpawnerTrackedEntity_UMFOSS`, `SpawnerEvents`, `SpawnerEnums`; explainers in `Runtime/Mechanic/SpawnerSystem/Script_Explainers/` |
+| **Location** | [`Runtime/Mechanic/SpawnerSystem/Scripts/`](Runtime/Mechanic/SpawnerSystem/Scripts/) — `WaveSpawner_UMFOSS`, `TimedSpawner_UMFOSS`, `ProximitySpawner_UMFOSS`, `SpawnProfile_UMFOSS`, `SpawnPoint_UMFOSS`, `SpawnerSpawnExecution`, `SpawnerTrackedEntity_UMFOSS`, `SpawnerEvents_UMFOSS`, `SpawnerEnums` |
+| **Script Explainers** | [`Runtime/Mechanic/SpawnerSystem/Script_Explainers/`](Runtime/Mechanic/SpawnerSystem/Script_Explainers/) (one per script) |
 | **Category** | World / Spawning |
-| **Demo project** | Unzip [Spwaner_System.zip](./Sample/SpawnerSystem/Spwaner_System.zip) (contains the demo `Assets`, `ProjectSettings`, and `Packages`) and open it in Unity; the scene path inside that project is `Assets/Scenes/DemoScene.unity`. |
-| **Video** | [▶ Watch](./Sample/SpawnerSystem/SpawnerSystemTutorial.mp4.zip) |
+| **UPM sample** | Package Manager → **Samples** → import **Spawner System** (`Sample/SpawnerSystem/`) |
+| **Demo project** | Unzip [Spwaner_System.zip](./Sample/SpawnerSystem/Spwaner_System.zip) and open in Unity — demo scene: `Assets/Scenes/DemoScene.unity` |
+| **Extra samples** | [`Samples~/SpawnerSystem/SpawnerSystem.zip`](Samples~/SpawnerSystem/SpawnerSystem.zip), [`SpawnerSystemVideos.zip`](Samples~/SpawnerSystem/SpawnerSystemVideos.zip) |
+| **Video** | [▶ Watch tutorial](./Sample/SpawnerSystem/SpawnerSystemTutorial.mp4.zip) |
 
 **What it does**
 
-ScriptableObject-driven spawning for three patterns: wave-based rounds, timed interval respawns (with optional refill on defeat), and proximity-triggered bursts using `Physics2D.OverlapCircle` (no trigger collider required on the spawner). All runtime spawning goes through `ObjectPoolManager_UMFOSS`; active counts use `SpawnerTrackedEntity_UMFOSS` and lifecycle events instead of polling for destroyed objects.
+ScriptableObject-driven spawning for three patterns: **wave-based** rounds, **timed** interval respawns (with optional refill on defeat), and **proximity-triggered** bursts using `Physics2D.OverlapCircle` (no trigger collider required on the spawner). All runtime spawning goes through `ObjectPoolManager_UMFOSS`; active counts use `SpawnerTrackedEntity_UMFOSS` and lifecycle events instead of polling for destroyed objects.
 
 **How to use it**
 
 ```csharp
 using GameplayMechanicsUMFOSS.World;
 
-// 1. Create SpawnProfile_UMFOSS assets (UMFOSS/World/SpawnProfile) with entries, weights, and caps.
+// 1. Create SpawnProfile_UMFOSS assets (Create → UMFOSS/World/SpawnProfile) with entries, weights, and caps.
 // 2. Place SpawnPoint_UMFOSS objects in the scene.
-// 3. Add WaveSpawner_UMFOSS, TimedSpawner_UMFOSS, or ProximitySpawner_UMFOSS and assign the profile + points.
-// 4. Ensure ObjectPoolManager_UMFOSS exists and pools are warmed for each prefab listed in the profile.
+// 3. Add WaveSpawner_UMFOSS, TimedSpawner_UMFOSS, or ProximitySpawner_UMFOSS; assign profiles + spawn points.
+// 4. Ensure ObjectPoolManager_UMFOSS exists and pools are warmed for each prefab in the profile.
 
 // Wave example — start from the Inspector or code:
 GetComponent<WaveSpawner_UMFOSS>().StartWaves();
+
+// Listen for wave lifecycle (Event Bus — types may change when the unified bus lands)
+EventBus.Subscribe<OnWaveStartedEvent>(e => Debug.Log($"Wave {e.WaveNumber}/{e.TotalWaves}"));
+EventBus.Subscribe<OnSpawnCountChangedEvent>(e => Debug.Log($"Active: {e.ActiveCount}/{e.MaxCount}"));
 ```
 
 **Highlights**
 
+- Three spawner components (`WaveSpawner_UMFOSS`, `TimedSpawner_UMFOSS`, `ProximitySpawner_UMFOSS`) sharing one `SpawnProfile_UMFOSS` data layer
 - Weighted random selection for mixed enemy types (timed/proximity single picks; waves iterate per entry row)
 - Pause-aware via `GamePausedEvent` and `TimerUtility_UMFOSS` for timed spawns
-- `AnimationCurve` count/delay scaling optional — flat curves at 1 preserve default behaviour
-- EventBus events: `OnWaveStartedEvent`, `OnWaveClearedEvent`, `OnTimedSpawnTriggeredEvent`, `OnProximitySpawnTriggeredEvent`, and shared `OnSpawnCountChangedEvent`
+- `AnimationCurve` count/delay scaling optional — flat curves at `1` preserve default behaviour
+- Event Bus payloads in `SpawnerEvents_UMFOSS.cs` (e.g. `OnWaveStartedEvent`, `OnWaveClearedEvent`, `OnTimedSpawnTriggeredEvent`, `OnProximitySpawnTriggeredEvent`, `OnSpawnCountChangedEvent`)
+
+> **Event Bus note:** This mechanic uses the current `EventBus` API. When the maintainer ships the **common Event Bus**, event struct names or namespaces may be updated — subscribe via `EventBus.Subscribe<T>` and watch repo release notes for a short migration.
 
 ---
 
@@ -595,7 +609,7 @@ All scripts use `GameplayMechanicsUMFOSS` as the base namespace, extended by fea
 | `GameplayMechanicsUMFOSS.Utils` | TimerUtility, helpers | ✅ Active |
 | `GameplayMechanicsUMFOSS.World` | Spawner system, spawn points, world tools | ✅ Active |
 | `GameplayMechanicsUMFOSS.Inventory` | Item systems, loot, equipment | 🔓 Open for contribution |
-| `GameplayMechanicsUMFOSS.Combat` | Hitboxes, damage, status effects | 🔓 Open for contribution |
+| `GameplayMechanicsUMFOSS.Combat` | Boomerang weapon, damage, combat events | ✅ Active |
 | `GameplayMechanicsUMFOSS.UI` | HUD, menus, tooltips | 🔓 Open for contribution |
 | `GameplayMechanicsUMFOSS.AI` | Patrol, pathfinding, decisions | 🔓 Open for contribution |
 | `GameplayMechanicsUMFOSS.Systems` | Save/load, audio, scene management | 🔓 Open for contribution |
@@ -621,28 +635,32 @@ All scripts use `GameplayMechanicsUMFOSS` as the base namespace, extended by fea
 
 ## 9. How to Contribute
 
-This library grows with every Pull Request. Every mechanic you contribute is permanently credited to you in the Mechanics Library above, complete with your name, your GitHub profile, and a link to your walkthrough video.
+This library grows with every Pull Request. Every mechanic you contribute is permanently credited to you in the [Mechanics Library](#6-mechanics-library) above, complete with your name, your GitHub profile, and a link to your walkthrough video.
 
-**The contribution flow at a Glance (See details in Contributing.MD):**
+> **Upcoming change (Event Bus):** Maintainers will introduce a **common Event Bus** after reviewing all submissions. You may need to update event types or subscriptions in a follow-up PR once that lands. Until then, use `EventBus.Publish` / `EventBus.Subscribe` with small `struct` event payloads — avoid duplicating bus classes in your mechanic folder.
+
+**The contribution flow at a glance** (details in [CONTRIBUTING.md](./CONTRIBUTING.md)):
 
 ```
 1.  Open an Issue  →  label: mechanic-proposal  →  describe what you want to build
 2.  Fork the repo and create a branch:  mechanic/your-mechanic-name
 3.  Build your mechanic inside  Runtime/
-4.  Create a self-contained demo scene inside  Samples~/
-5.  Write  ScriptExplainer.txt  (line-by-line code explanation)
-6.  Record  Demo.mp4  (video walkthrough — mandatory)
-7.  Add your entry to the Mechanics Library in this README
+4.  Add samples under  Sample/  and/or  Samples~/  (see CONTRIBUTING.md)
+5.  Write  ScriptExplainer.txt  (line-by-line code explanation — mandatory)
+6.  Record a video walkthrough (zip or linked — mandatory)
+7.  Update README.md: Quick Navigation row + full  ### N.  section (N = issue number)
 8.  Open a PR titled:  [Mechanic] Add Your Mechanic Name
 ```
 
 **Your README entry must include:**
+- Your GitHub **issue number** in the section heading (e.g. `### 25. Spawner System`)
 - Your name linked to your GitHub profile
-- A link to your video walkthrough
+- **Location** and **Script Explainers** paths under `Runtime/`
+- Links to demo/sample assets and your video walkthrough
 - A minimal code example showing how to use the mechanic
-- A short description and highlights
+- A short **What it does** summary and **Highlights** bullets
 
-Read the full [CONTRIBUTING.md](./CONTRIBUTING.md) before you start. It covers everything: folder structure, namespace rules, ScriptExplainer format, video requirements, PR checklist, and code standards.
+Read the full [CONTRIBUTING.md](./CONTRIBUTING.md) before you start. It covers folder structure, namespace rules, ScriptExplainer format, video requirements, PR checklist, and code standards.
 
 > **Not sure if your mechanic fits?** Open an Issue with the label `mechanic-proposal` before writing any code. You'll get feedback on scope and design before you invest time building.
 
